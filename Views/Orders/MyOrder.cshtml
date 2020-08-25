@@ -1,10 +1,10 @@
 ﻿@model Bartender_App.Models.Order
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "MyOrder";
 }
 
-<h1>Details</h1>
+<h1>MyOrder</h1>
 
 <div>
     <h4>Order</h4>
@@ -27,6 +27,18 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Total)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ready)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ready)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PickedUp)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PickedUp)
         </dd>
     </dl>
 </div>

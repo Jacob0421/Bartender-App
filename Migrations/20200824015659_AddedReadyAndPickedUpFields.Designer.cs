@@ -3,14 +3,16 @@ using Bartender_App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bartender_App.Migrations
 {
     [DbContext(typeof(BartenderDbContext))]
-    partial class BartenderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200824015659_AddedReadyAndPickedUpFields")]
+    partial class AddedReadyAndPickedUpFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

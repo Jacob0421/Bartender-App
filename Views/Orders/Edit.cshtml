@@ -3,33 +3,49 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+<head>
+    <script src="~/js/Pages.js"></script>
+    <style>
+        .Total {
+            border: 0px;
+        }
+    </style>
+</head>
 <h1>Edit</h1>
 
 <h4>Order</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" value="@Model.Id" name="orderIdIn"/>
             <div class="form-group">
-                <label asp-for="OrderName" class="control-label"></label>
-                <input asp-for="OrderName" class="form-control" />
-                <span asp-validation-for="OrderName" class="text-danger"></span>
+                <input type="text" value="@Model.OrderName" name="nameOnOrderIn"/>
+            </div>
+            <Select class="form-control" name="drinkOrderedIn" id="DrinkSelector" onchange="FindTotal()" required>
+                <option value="none" selected disabled hidden>
+                    --Select a Drink--
+                </option>
+                <option value="Bourbon Old Fashioned">Bourbon Old Fashioned</option>
+                <option value="Negroni">Negroni</option>
+                <option value="Manhattan">Manhattan</option>
+                <option value="Long Island Iced Tea">Long Island Iced Tea</option>
+                <option value="White Russian">White Russian</option>
+                <option value="Margarita">Margarita</option>
+                <option value="Bloody Mary">Bloody Mary</option>
+                <option value="Dirty Martini">Dirty Martini</option>
+                <option value="Painkiller">Painkiller</option>
+                <option value="Aperol Spritz">Aperol Spritz</option>
+                <option value="Other">Other</option>
+            </Select>
+            <br />
+            <div class="form-group">
+                <label class="control-label">Total:</label>
+                <input type="text" name="totalIn" class="Total" id="TotalTxtBox" readonly required />
             </div>
             <div class="form-group">
-                <label asp-for="OrderId" class="control-label"></label>
-                <input asp-for="OrderId" class="form-control" />
-                <span asp-validation-for="OrderId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
             </div>
         </form>
     </div>

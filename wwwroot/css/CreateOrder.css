@@ -1,0 +1,12 @@
+﻿.totalBox {
+    position: absolute;
+    top: 20%;
+    right: -50%;
+    display: flex;
+    justify-content: center;
+    outline-color: rgba(128, 128, 128, .20);
+    height: 20vh;
+    width: 10vw;
+    box-shadow: 2px 2px 2px;
+    border-radius: 15px;
+}

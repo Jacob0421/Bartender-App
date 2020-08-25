@@ -9,8 +9,8 @@ namespace Bartender_App.Models
 {
     public class BartenderDbContext : DbContext
     {
-        public BartenderDbContext( DbContextOptions<BartenderDbContext> options) 
-            : base (options)
+        public BartenderDbContext(DbContextOptions<BartenderDbContext> options)
+            : base(options)
         {
 
         }
@@ -20,13 +20,15 @@ namespace Bartender_App.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().HasData(
-               new Order 
-               {            
-                Id=1,
-                OrderName = "Jacob",
-                OrderId = "1",
-                Total = 5.99
-            });
+               new Order
+               {
+                   Id = 1,
+                   OrderName = "Jacob",
+                   DrinkOrdered = "Bourbon Old Fashioned",
+                   Total = "$10.99",
+                   Ready = false,
+                   PickedUp = false
+               });
         }
     }
 }

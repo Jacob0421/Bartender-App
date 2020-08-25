@@ -1,47 +1,43 @@
-﻿@model IEnumerable<Bartender_App.Models.Order>
-
+﻿
 @{
     ViewData["Title"] = "Index";
 }
 
+<div>
+    <a asp-action="BartenderLogin">Login</a>
+</div>
+
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<form method="post" asp-action="MyOrder">
+    <table>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th></th>
+            <th> Name on Order:</th>
+            <th> Drink Ordered:</th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
         <tr>
+            <td><input type="text" name="nameIn" placeholder="Order Name" class="form-control" /></td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <Select class="form-control" name="drinkOrderedIn" required>
+                    <option value="none" selected disabled hidden>
+                        --Select a Drink--
+                    </option>
+                    <option value="Bourbon Old Fashioned">Bourbon Old Fashioned</option>
+                    <option value="Negroni">Negroni</option>
+                    <option value="Manhattan">Manhattan</option>
+                    <option value="Long Island Iced Tea">Long Island Iced Tea</option>
+                    <option value="White Russian">White Russian</option>
+                    <option value="Margarita">Margarita</option>
+                    <option value="Bloody Mary">Bloody Mary</option>
+                    <option value="Dirty Martini">Dirty Martini</option>
+                    <option value="Painkiller">Painkiller</option>
+                    <option value="Aperol Spritz">Aperol Spritz</option>
+                    <option value="Other">Other</option>
+                </Select>
             </td>
         </tr>
-}
-    </tbody>
-</table>
+    </table>
+    <br />
+    <br />
+   <input type="submit" value="Submit" class="btn btn-primary" />
+</form>

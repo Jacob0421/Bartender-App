@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bartender_App.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Bartender_App.Controllers
 {
@@ -18,15 +19,40 @@ namespace Bartender_App.Controllers
             _context = context;
         }
 
-        // GET: Orders
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Orders.ToListAsync());
+            return View("Index");
+            //return RedirectToAction("BartenderList");
+        }
+
+        [HttpPost]
+        public IActionResult MyOrder(string nameIn, string drinkOrderedIn)
+        {
+            return View(_context.Orders.FirstOrDefault(o => o.OrderName.ToLower() == nameIn.ToLower() && o.DrinkOrdered.ToLower() == drinkOrderedIn.ToLower()));
+        }
+
+        [HttpPost]
+        public IActionResult BartenderLogin(string username, string password)
+        {
+            if(username == "Bartender" && password == "Login")
+            {
+                return RedirectToAction("BartenderList");
+            }
+
+            ViewData["error"] = "U:Bartender P:Login";
+            return View("BartenderLogin");
+        } 
+
+        // GET: Orders
+        public async Task<IActionResult> BartenderList()
+        {
+            return View(await _context.Orders.Where(o => o.PickedUp != true).ToListAsync());
         }
 
         // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string name)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -53,15 +79,22 @@ namespace Bartender_App.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,OrderName,OrderId,Total")] Order order)
+        public async Task<IActionResult> Create(string drinkOrderedIn, string totalIn, string orderNameIn)
         {
+            Order orderIn = new Order()
+            {
+                DrinkOrdered = drinkOrderedIn,
+                Total = totalIn,
+                OrderName = orderNameIn
+            };
+
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+                _context.Add(orderIn);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(orderIn);
         }
 
         // GET: Orders/Edit/5
@@ -85,7 +118,7 @@ namespace Bartender_App.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,OrderName,OrderId,Total")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,OrderName,DinkOrdered,Total")] Order order)
         {
             if (id != order.Id)
             {

@@ -3,14 +3,16 @@ using Bartender_App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bartender_App.Migrations
 {
     [DbContext(typeof(BartenderDbContext))]
-    partial class BartenderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200822220411_ChangedTotalTypeToString")]
+    partial class ChangedTotalTypeToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,18 +28,10 @@ namespace Bartender_App.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("DrinkOrdered")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PickedUp")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Ready")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Total")
                         .HasColumnType("nvarchar(max)");
@@ -52,8 +46,6 @@ namespace Bartender_App.Migrations
                             Id = 1,
                             DrinkOrdered = "Bourbon Old Fashioned",
                             OrderName = "Jacob",
-                            PickedUp = false,
-                            Ready = false,
                             Total = "$10.99"
                         });
                 });

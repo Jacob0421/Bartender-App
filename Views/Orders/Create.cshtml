@@ -3,6 +3,16 @@
 @{
     ViewData["Title"] = "Create";
 }
+<head>
+    <script src ="~/js/Pages.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/CreateOrder.css" asp-append-version="true" />
+
+    <style>
+        .Total {
+            border: 0px;
+        }
+    </style>
+</head>
 
 <h1>Create</h1>
 
@@ -10,29 +20,44 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post" asp-action="Create">
             <div class="form-group">
-                <label asp-for="OrderName" class="control-label"></label>
-                <input asp-for="OrderName" class="form-control" />
-                <span asp-validation-for="OrderName" class="text-danger"></span>
+                <label class="control-label">Name on Order:</label>
+                <input name="orderNameIn" class="form-control" required/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Order Drink:</label>
+                <Select class="form-control" name="drinkOrderedIn" id="DrinkSelector" onchange="FindTotal()" required>
+                    <option value="none" selected disabled hidden>
+                        --Select a Drink--
+                    </option>
+                    <option value="Bourbon Old Fashioned">Bourbon Old Fashioned</option>
+                    <option value="Negroni">Negroni</option>
+                    <option value="Manhattan">Manhattan</option>
+                    <option value="Long Island Iced Tea">Long Island Iced Tea</option>
+                    <option value="White Russian">White Russian</option>
+                    <option value="Margarita">Margarita</option>
+                    <option value="Bloody Mary">Bloody Mary</option>
+                    <option value="Dirty Martini">Dirty Martini</option>
+                    <option value="Painkiller">Painkiller</option>
+                    <option value="Aperol Spritz">Aperol Spritz</option>
+                    <option value="Other">Other</option>
+                </Select>
             </div>
             <div class="form-group">
-                <label asp-for="OrderId" class="control-label"></label>
-                <input asp-for="OrderId" class="form-control" />
-                <span asp-validation-for="OrderId" class="text-danger"></span>
+                <label class="control-label">Total:</label>
+                <input type="text" name="totalIn" class="Total" id="TotalTxtBox" readonly required/>
             </div>
+            <br />
+            <br />
             <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+
 
 <div>
     <a asp-action="Index">Back to List</a>

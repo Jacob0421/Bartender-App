@@ -23,12 +23,16 @@ namespace Bartender_App.Controllers
         public IActionResult Index()
         {
             return View("Index");
-            //return RedirectToAction("BartenderList");
         }
 
         [HttpPost]
         public IActionResult MyOrder(string nameIn, string drinkOrderedIn)
         {
+            if (string.IsNullOrEmpty(nameIn) || string.IsNullOrEmpty(drinkOrderedIn))
+            {
+                TempData["error"] = "One or more blank fields was entered. Please Try Again";
+                return View("Index");
+            }
             ViewData["SpotInLine"] = (_context.Orders.IndexOf(_context.Orders.FirstOrDefault(o => o.OrderName == nameIn && o.DrinkOrdered == drinkOrderedIn))) - 1;
 
 

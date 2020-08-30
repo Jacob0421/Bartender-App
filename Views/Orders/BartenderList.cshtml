@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Bartender_App.Models.Order>
+﻿@model Bartender_App.Models.BartenderListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -9,39 +9,85 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+
+<br />
+<strong class="text-warning">@TempData["MethodResult"]</strong>
+<br />
+<br />
+<table class="table" style="float: left; width: 49%;">
     <thead>
         <tr>
+            <th colspan="4" class="text-center">Pending Orders</th>
+        </tr>
+        <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderName)
+                @Html.DisplayNameFor(model => model.ForHeaderNames.OrderName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DrinkOrdered)
+                @Html.DisplayNameFor(model => model.ForHeaderNames.DrinkOrdered)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Total)
+                @Html.DisplayNameFor(model => model.ForHeaderNames.Total)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model.PendingOrders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrinkOrdered)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    <input type="button" class="btn btn-primary" value="Ready" asp-action="Ready" asp-route-id="@item.Id">
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table" style="float: right; width:49%;">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DrinkOrdered)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            <th colspan="4" class="text-center">Ready Orders</th>
         </tr>
-}
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ForHeaderNames.OrderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ForHeaderNames.DrinkOrdered)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ForHeaderNames.Total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ReadyOrders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrinkOrdered)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    <input type="button" class="btn btn-primary" value="Picked Up" asp-action="PickedUp" asp-route-id="@item.Id">
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

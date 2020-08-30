@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "BartenderLogin";
+}
+
+<h1>BartenderLogin</h1>
+
+<p class="text-danger">@TempData["error"]</p>
+<form method="post" asp-action="BartenderLogin">
+    <table>
+        <tr>
+            <td>Username:</td>
+            <td>
+                <input type="text" placeholder="Username" name="username" value="Bartender" />
+            </td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" placeholder="Password" name="password" value="Login" /></td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" value="Login" class="btn btn-primary"/>
+</form>

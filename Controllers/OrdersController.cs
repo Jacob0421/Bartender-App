@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bartender_App.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Bartender_App.Controllers
 {
@@ -28,7 +29,15 @@ namespace Bartender_App.Controllers
         [HttpPost]
         public IActionResult MyOrder(string nameIn, string drinkOrderedIn)
         {
+            ViewData["SpotInLine"] = (_context.Orders.IndexOf(_context.Orders.FirstOrDefault(o => o.OrderName == nameIn && o.DrinkOrdered == drinkOrderedIn))) - 1;
+
+
             return View(_context.Orders.FirstOrDefault(o => o.OrderName.ToLower() == nameIn.ToLower() && o.DrinkOrdered.ToLower() == drinkOrderedIn.ToLower()));
+        }
+
+        public IActionResult BartenderLogin()
+        {
+            return View();
         }
 
         [HttpPost]
@@ -39,18 +48,63 @@ namespace Bartender_App.Controllers
                 return RedirectToAction("BartenderList");
             }
 
-            ViewData["error"] = "U:Bartender P:Login";
+            TempData["error"] = "U:Bartender P:Login";
             return View("BartenderLogin");
         } 
 
         // GET: Orders
-        public async Task<IActionResult> BartenderList()
+        public IActionResult BartenderList()
         {
-            return View(await _context.Orders.Where(o => o.PickedUp != true).ToListAsync());
+            BartenderListViewModel displayLists = new BartenderListViewModel
+            {
+                PendingOrders = _context.Orders.Where(o => o.Ready != true && o.PickedUp != true),
+                ReadyOrders = _context.Orders.Where(o => o.Ready == true && o.PickedUp != true)
+            };
+            return View(displayLists);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Ready(int id)
+        {
+            Order orderReady = _context.Orders.FirstOrDefault(o => o.Id == id);
+
+            orderReady.Ready = true;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException){
+                if ((await _context.Orders.FirstOrDefaultAsync(o => o.Id == id)) == null)
+                {
+                    return NotFound();
+                }
+            }
+            TempData["MethodResult"] = "The Order for " + orderReady.OrderName + " is ready.";
+            return RedirectToAction("BartenderList");
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> PickedUp(int id)
+        {
+            Order pickedUpOrder = _context.Orders.FirstOrDefault(o => o.Id == id);
+
+            pickedUpOrder.PickedUp = true;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException){
+                if ((await _context.Orders.FirstOrDefaultAsync(o => o.Id == id)) == null)
+                {
+                    return NotFound();
+                }
+            }
+            TempData["MethodResult"] = "The Order for " + pickedUpOrder.OrderName + " has been picked up.";
+            return RedirectToAction("BartenderList");
         }
 
         // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id, string name)
+        public async Task<IActionResult> Details(int? id)
         {
 
             if (id == null)
@@ -94,6 +148,8 @@ namespace Bartender_App.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            TempData["MethodResult"] = "Your order for a " + orderIn.DrinkOrdered + " under the name: " + orderIn.OrderName + " has been created.";
             return View(orderIn);
         }
 

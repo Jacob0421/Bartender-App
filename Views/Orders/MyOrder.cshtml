@@ -9,36 +9,36 @@
 <div>
     <h4>Order</h4>
     <hr />
+    <br />
+    @{
+        if (Model.Ready)
+        {
+            <p class="text-danger">Your Order is now Ready</p>
+        } else
+        {
+
+
+            <p class="text-warning"> Your order is number @ViewData["SpotInLine"] in line. </p>
+        }
+    }
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.OrderName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.OrderName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DrinkOrdered)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DrinkOrdered)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Total)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Total)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ready)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ready)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PickedUp)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PickedUp)
         </dd>
     </dl>
 </div>

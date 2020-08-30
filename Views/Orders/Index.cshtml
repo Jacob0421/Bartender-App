@@ -7,8 +7,15 @@
     <a asp-action="BartenderLogin">Login</a>
 </div>
 
-<h1>Index</h1>
+<h1>Create or Find An Order</h1>
+<br />
+<br />
+<a class="btn btn-primary" asp-action="Create">Create</a>
+<br />
+<strong class="text-warning">@TempData["MethodResult"]</strong>
+<br />
 
+<h3>Find Your Order's Status</h3>
 <form method="post" asp-action="MyOrder">
     <table>
         <tr>
@@ -38,6 +45,5 @@
         </tr>
     </table>
     <br />
-    <br />
-   <input type="submit" value="Submit" class="btn btn-primary" />
+    <input type="submit" value="Submit" class="btn btn-primary" />
 </form>
